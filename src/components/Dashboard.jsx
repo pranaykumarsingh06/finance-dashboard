@@ -13,12 +13,12 @@ const Dashboard = ({ user }) => {
 
   useEffect(() => {
     if (!user) return;
-    
+
     const q = query(
       collection(db, 'accounts', user.uid, 'transactions'),
       orderBy('date', 'desc')
     );
-
+    //123456
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const txs = snapshot.docs.map(doc => ({
         id: doc.id,
@@ -54,7 +54,7 @@ const Dashboard = ({ user }) => {
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 p-4 md:p-6 font-sans relative">
       <div className="max-w-7xl mx-auto space-y-8">
-        
+
         {/* Header */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center pb-6 border-b border-slate-800 gap-4">
           <div>
@@ -85,10 +85,10 @@ const Dashboard = ({ user }) => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            
+
             {/* Quick Stats Sidebar */}
             <div className="space-y-6 md:col-span-1">
-              
+
               {/* Total Balance */}
               <div className="group bg-gradient-to-br from-indigo-900/50 to-slate-800/50 backdrop-blur-md rounded-2xl p-6 border border-indigo-500/20 shadow-xl transition-all hover:border-indigo-400/40">
                 <p className="text-slate-400 text-sm font-medium mb-1">Total Balance</p>
@@ -115,14 +115,14 @@ const Dashboard = ({ user }) => {
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                 <span>Add Transaction</span>
               </button>
-              
+
             </div>
 
             {/* Main Content */}
             <div className="md:col-span-3 space-y-6">
-              
+
               <Charts transactions={transactions} />
-              
+
               <TransactionList transactions={transactions} />
 
             </div>
