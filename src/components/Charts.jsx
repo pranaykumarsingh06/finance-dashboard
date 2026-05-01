@@ -70,17 +70,28 @@ const Charts = ({ transactions }) => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        labels: { color: '#cbd5e1' }
+        labels: { color: '#cbd5e1', font: { family: 'Inter' } }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+        titleColor: '#f8fafc',
+        bodyColor: '#cbd5e1',
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        borderWidth: 1,
+        padding: 12,
+        cornerRadius: 8,
+        titleFont: { family: 'Inter', weight: 'bold' },
+        bodyFont: { family: 'Inter' },
       }
     },
     scales: {
       y: {
         grid: { color: 'rgba(255, 255, 255, 0.05)' },
-        ticks: { color: '#94a3b8' }
+        ticks: { color: '#94a3b8', font: { family: 'Inter' } }
       },
       x: {
         grid: { display: false },
-        ticks: { color: '#94a3b8' }
+        ticks: { color: '#94a3b8', font: { family: 'Inter' } }
       }
     }
   };
@@ -128,7 +139,17 @@ const Charts = ({ transactions }) => {
     plugins: {
       legend: {
         position: 'right',
-        labels: { color: '#cbd5e1', boxWidth: 12 }
+        labels: { color: '#cbd5e1', boxWidth: 12, font: { family: 'Inter' } }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+        titleColor: '#f8fafc',
+        bodyColor: '#cbd5e1',
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        borderWidth: 1,
+        padding: 12,
+        cornerRadius: 8,
+        bodyFont: { family: 'Inter' },
       }
     }
   };
@@ -139,8 +160,11 @@ const Charts = ({ transactions }) => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-6 border border-slate-700/50 shadow-xl lg:col-span-2 h-80">
-        <h3 className="text-lg font-semibold text-slate-100 mb-4">Income vs Expenses</h3>
+      <div className="glass-card rounded-2xl p-6 lg:col-span-2 h-80 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-shadow duration-300">
+        <h3 className="text-lg font-semibold text-slate-100 mb-4 flex items-center gap-2">
+          <svg className="w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+          Income vs Expenses
+        </h3>
         <div className="h-64 relative">
           {barData.labels.length > 0 ? (
             <Bar data={barData} options={barOptions} />
@@ -150,8 +174,11 @@ const Charts = ({ transactions }) => {
         </div>
       </div>
       
-      <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-6 border border-slate-700/50 shadow-xl h-80">
-        <h3 className="text-lg font-semibold text-slate-100 mb-4">Expenses by Category</h3>
+      <div className="glass-card rounded-2xl p-6 h-80 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-shadow duration-300">
+        <h3 className="text-lg font-semibold text-slate-100 mb-4 flex items-center gap-2">
+          <svg className="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
+          Expenses by Category
+        </h3>
         <div className="h-64 relative pb-4">
           {pieData.labels.length > 0 ? (
             <Pie data={pieData} options={pieOptions} />
