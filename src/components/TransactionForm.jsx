@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import { collection, addDoc, serverTimestamp } from 'firebase/auth'; // Wait, it's firestore
-import { db } from '../firebase';
-
-// Oops correct imports in file content
 import { collection as firestoreCollection, addDoc as firestoreAddDoc, serverTimestamp as firestoreServerTimestamp } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const TransactionForm = ({ uid, onClose }) => {
   const [type, setType] = useState('expense');
@@ -47,30 +44,33 @@ const TransactionForm = ({ uid, onClose }) => {
   const currentCategories = type === 'expense' ? expenseCategories : incomeCategories;
 
   return (
-    <div className="bg-slate-800/90 backdrop-blur-xl rounded-2xl p-6 border border-slate-700 shadow-2xl w-full max-w-md">
-      <div className="flex justify-between items-center mb-6">
-        <h3 className="text-xl font-bold text-white">Add Transaction</h3>
+    <div className="glass-card rounded-2xl p-8 w-full max-w-md border border-slate-700/50 shadow-2xl relative overflow-hidden">
+      <div className="absolute top-[-50px] right-[-50px] w-32 h-32 bg-sky-500/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-[-50px] left-[-50px] w-32 h-32 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div className="flex justify-between items-center mb-6 relative z-10">
+        <h3 className="text-xl font-bold text-white text-gradient bg-gradient-to-r from-sky-400 to-indigo-400">Add Transaction</h3>
         {onClose && (
-          <button onClick={onClose} className="text-slate-400 hover:text-white transition">
+          <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors duration-200">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
           </button>
         )}
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
         {/* Type Toggle */}
-        <div className="flex p-1 bg-slate-900/50 rounded-lg">
+        <div className="flex p-1 bg-slate-900/50 rounded-lg border border-slate-800 shadow-inner">
           <button
             type="button"
             onClick={() => { setType('expense'); setCategory(''); }}
-            className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-all ${type === 'expense' ? 'bg-rose-500 text-white shadow' : 'text-slate-400 hover:text-slate-200'}`}
+            className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-all duration-300 ${type === 'expense' ? 'bg-rose-500 text-white shadow-md' : 'text-slate-400 hover:text-slate-200'}`}
           >
             Expense
           </button>
           <button
             type="button"
             onClick={() => { setType('income'); setCategory(''); }}
-            className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-all ${type === 'income' ? 'bg-emerald-500 text-white shadow' : 'text-slate-400 hover:text-slate-200'}`}
+            className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-all duration-300 ${type === 'income' ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-400 hover:text-slate-200'}`}
           >
             Income
           </button>
@@ -84,7 +84,7 @@ const TransactionForm = ({ uid, onClose }) => {
               type="number"
               step="0.01"
               required
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 px-3 text-slate-100 focus:outline-none focus:border-sky-500 transition-colors"
+              className="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg py-2.5 px-3 text-slate-100 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all duration-300 shadow-inner"
               placeholder="0.00"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -95,7 +95,7 @@ const TransactionForm = ({ uid, onClose }) => {
             <input
               type="date"
               required
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 px-3 text-slate-100 focus:outline-none focus:border-sky-500 transition-colors"
+              className="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg py-2.5 px-3 text-slate-100 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all duration-300 shadow-inner"
               value={date}
               onChange={(e) => setDate(e.target.value)}
             />
@@ -107,13 +107,13 @@ const TransactionForm = ({ uid, onClose }) => {
           <label className="block text-xs font-medium text-slate-400 mb-1">Category</label>
           <select
             required
-            className="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 px-3 text-slate-100 focus:outline-none focus:border-sky-500 transition-colors"
+            className="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg py-2.5 px-3 text-slate-100 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all duration-300 shadow-inner appearance-none"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option value="" disabled>Select a category...</option>
+            <option value="" disabled className="bg-slate-900 text-slate-500">Select a category...</option>
             {currentCategories.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
+              <option key={cat} value={cat} className="bg-slate-900">{cat}</option>
             ))}
           </select>
         </div>
@@ -123,7 +123,7 @@ const TransactionForm = ({ uid, onClose }) => {
           <label className="block text-xs font-medium text-slate-400 mb-1">Note (Optional)</label>
           <input
             type="text"
-            className="w-full bg-slate-900 border border-slate-700 rounded-lg py-2 px-3 text-slate-100 focus:outline-none focus:border-sky-500 transition-colors"
+            className="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg py-2.5 px-3 text-slate-100 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all duration-300 shadow-inner"
             placeholder="What was this for?"
             value={note}
             onChange={(e) => setNote(e.target.value)}
@@ -133,7 +133,7 @@ const TransactionForm = ({ uid, onClose }) => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full mt-2 bg-sky-500 hover:bg-sky-400 text-white font-medium py-2.5 rounded-lg transition-all shadow-lg shadow-sky-500/20 disabled:opacity-70"
+          className="w-full mt-4 bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-400 hover:to-indigo-400 text-white font-semibold py-3 rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(14,165,233,0.3)] hover:shadow-[0_0_20px_rgba(14,165,233,0.5)] disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {loading ? 'Saving...' : 'Save Transaction'}
         </button>
